@@ -1,11 +1,12 @@
 
-const CACHE_NAME = "smarttractor-v1";
+const CACHE_NAME = "smarttractor-v2";
 
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
   "./style.css",
   "./script.js",
+  "./features.js",
   "./manifest.json"
 ];
 

@@ -916,3 +916,38 @@ footer p:first-child {
 .toggle-key:hover {
     background: #f1f5f1;
 }
+
+/* SMARTTRACTOR - PERFIS, FROTA E REGISTROS */
+[hidden] { display: none !important; }
+.role-gate { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px; background:linear-gradient(135deg,#102f1d,#267a43); }
+.role-card { width:min(680px,100%); background:#fff; border-radius:22px; padding:clamp(24px,5vw,48px); text-align:center; box-shadow:0 18px 55px #0003; }
+.role-logo { font-size:56px; margin-bottom:12px; }
+.role-card h1 { color:#1d6338; margin:8px 0; font-size:clamp(26px,5vw,38px); }
+.role-card>p { color:#627267; margin:10px 0 22px; }
+.role-options { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin:26px 0; }
+.role-choice { display:flex; flex-direction:column; align-items:center; gap:10px; padding:24px 14px; border:2px solid #dce8df; border-radius:16px; background:#f7fbf8; color:#1d6338; font-size:28px; cursor:pointer; }
+.role-choice:hover { border-color:#267a43; background:#edf7ef; }
+.role-choice strong { font-size:18px; } .role-choice small { font-size:13px; line-height:1.5; color:#5d6e62; }
+.local-warning { font-size:12px; color:#8a5a16 !important; background:#fff7e7; border-radius:9px; padding:10px; }
+.role-bar { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:20px; padding:12px 16px; background:#eaf3ec; border-radius:10px; color:#1d6338; font-weight:bold; }
+.form-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin-top:18px; }
+.form-grid label,.subpanel label { display:flex; flex-direction:column; gap:6px; color:#385443; font-size:13px; font-weight:600; }
+.form-grid input,.form-grid select,.form-grid textarea,.subpanel input,.subpanel select,#farmFilter { width:100%; padding:11px 12px; border:1px solid #ccd9ce; border-radius:8px; font:inherit; color:#203328; background:#fff; }
+.full-field { grid-column:1/-1; }
+.form-grid button,.subpanel button { border:0; border-radius:8px; padding:12px 18px; background:#267a43; color:white; font-weight:bold; cursor:pointer; }
+.manager-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin:18px 0; }
+.subpanel { padding:18px; border:1px solid #dce6de; border-radius:12px; display:flex; flex-direction:column; gap:12px; }
+.subpanel h3,.table-wrap h3 { color:#1d6338; margin-bottom:4px; }
+.table-wrap { margin-top:24px; }
+.record-list { display:grid; gap:10px; margin-top:12px; }
+.record-card { border:1px solid #dce6de; border-radius:10px; padding:14px; background:#fbfdfb; }
+.record-card p { margin:5px 0; font-size:13px; color:#53665a; overflow-wrap:anywhere; }
+.record-card .rating-row { display:flex; gap:8px; align-items:center; margin-top:10px; flex-wrap:wrap; }
+.record-card input { width:75px; padding:7px; border:1px solid #ccd9ce; border-radius:6px; }
+.record-card button { padding:8px 12px; border:0; border-radius:6px; background:#267a43; color:white; cursor:pointer; }
+.empty-state { padding:16px; color:#68796d; background:#f5f8f5; border-radius:9px; }
+.tips-box { margin-top:20px; padding:15px; background:#eef7ef; border-left:4px solid #35a854; border-radius:8px; color:#355a40; }
+.tips-box p,.summary-text { margin-top:7px; line-height:1.55; }
+@media(max-width:700px) { .role-options,.manager-grid,.form-grid { grid-template-columns:1fr; } .role-bar { align-items:flex-start; } main { width:94%; padding-top:18px; } .full-field { grid-column:auto; } }
+
+body.app-locked > header, body.app-locked > main, body.app-locked > footer { display:none; }

@@ -2,17 +2,32 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 
-    <link rel="manifest" href="./manifest.json">
-<meta name="theme-color" content="#1b5e20">
-<meta name="mobile-web-app-capable" content="yes">
-
 <head>
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#1b5e20">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SmartTractor | Monitoramento Agrícola</title>
     <link rel="stylesheet" href="./style.css">
 </head>
-<body>
+<body class="app-locked">
+
+<!-- ACESSO INICIAL SMARTTRACTOR -->
+<section id="roleGate" class="role-gate">
+  <div class="role-card">
+    <div class="role-logo">🚜</div>
+    <p class="subtitle">GESTÃO AGRÍCOLA INTELIGENTE</p>
+    <h1>Bem-vindo ao SmartTractor</h1>
+    <p>Escolha seu perfil para acessar o sistema.</p>
+    <div class="role-options">
+      <button type="button" class="role-choice" data-role="operator">👷 <strong>Sou operador</strong><small>Registrar operações, paradas e manutenções</small></button>
+      <button type="button" class="role-choice" data-role="manager">📊 <strong>Sou gerente</strong><small>Acompanhar fazendas, equipe e frota</small></button>
+    </div>
+    <p class="local-warning">Versão inicial: os registros ficam neste aparelho até a ativação do banco de dados online.</p>
+  </div>
+</section>
+
 
 <header>
     <div class="logo">🚜 SmartTractor</div>
@@ -23,6 +38,12 @@
 </header>
 
 <main>
+
+<div id="roleBar" class="role-bar" hidden>
+  <span id="activeRoleLabel">Perfil</span>
+  <button type="button" id="changeRole" class="secondary-button">Trocar perfil</button>
+</div>
+
     <section class="hero">
         <div>
             <p class="subtitle">AGRICULTURA DE PRECISÃO</p>
@@ -46,6 +67,9 @@
         </button>
         <button class="tab-button" data-tab="configuracoes" type="button">
             <span>⚙️</span> Configurações
+        </button>
+        <button class="tab-button" data-tab="registros" type="button">
+            <span>📋</span> Gestão e registros
         </button>
     </nav>
 
@@ -372,6 +396,54 @@
         </section>
     </section>
 
+
+    <!-- ABA 4: OPERADOR E GERÊNCIA -->
+    <section class="tab-content" id="registros">
+      <div class="section-heading"><div><h2 id="recordsTitle">Gestão e registros</h2><p id="recordsSubtitle">Registre atividades e acompanhe a frota.</p></div></div>
+
+      <section id="operatorPanel" class="panel">
+        <h2>Registro do operador</h2>
+        <p class="panel-description">Preencha os dados da atividade. Registre também paradas e serviços realizados.</p>
+        <form id="operatorForm" class="form-grid">
+          <label>Nome do operador<input name="operator" required maxlength="80" placeholder="Nome completo"></label>
+          <label>Fazenda<input name="farm" required maxlength="100" placeholder="Nome da fazenda"></label>
+          <label>Máquina<select name="machine" id="operatorMachine" required><option value="">Selecione uma máquina</option></select></label>
+          <label>Tipo de operação<select name="operation" required><option>Plantio</option><option>Pulverização</option><option>Preparo do solo</option><option>Distribuição de fertilizante</option><option>Colheita</option><option>Transporte</option><option>Outra</option></select></label>
+          <label>Frequência de rádio<input name="radio" maxlength="40" placeholder="Ex.: canal 5 /  sinal 145.500 MHz"></label>
+          <label>Data e hora<input name="workDate" type="datetime-local" required></label>
+          <label class="full-field">Motivo da parada (se houve)<select name="stopReason"><option value="">Não houve parada</option><option>Abastecimento</option><option>Manutenção preventiva</option><option>Quebra ou falha mecânica</option><option>Problema elétrico</option><option>Condição climática</option><option>Aguardando logística</option><option>Outro</option></select></label>
+          <label class="full-field">Manutenção realizada / serviço executado<textarea name="maintenance" rows="3" placeholder="Descreva o que foi feito; se não houve, deixe em branco"></textarea></label>
+          <label class="full-field">O que quebrou e possível causa<textarea name="failure" rows="2" placeholder="Peça, sistema, sintoma e causa suspeita"></textarea></label>
+          <label class="full-field">Observações<textarea name="notes" rows="2" placeholder="Informações adicionais"></textarea></label>
+          <button type="submit">Salvar registro</button>
+        </form>
+        <p id="operatorFeedback" class="connection-message" aria-live="polite"></p>
+        <div class="tips-box"><strong>💡 Lembrete de manutenção</strong><p>Antes e depois da operação, siga o manual da máquina: confira níveis, vazamentos, filtros, lubrificação, pneus ou esteiras e sistema de arrefecimento. Faça intervenções somente com a máquina parada e em segurança.</p></div>
+      </section>
+
+      <section id="managerPanel" class="panel" hidden>
+        <h2>Painel do gerente</h2>
+        <p class="panel-description">Cadastre a frota, filtre os registros por fazenda e avalie o desempenho da equipe.</p>
+        <div class="manager-grid">
+          <form id="fleetForm" class="subpanel">
+            <h3>Cadastro de máquina</h3>
+            <label>Fazenda<input name="farm" required placeholder="Fazenda"></label>
+            <label>Categoria<select name="category"><option>Colheitadeira</option><option>Trator</option><option>Retroescavadeira</option><option>Caminhão</option></select></label>
+            <label>Identificação / patrimônio<input name="machine" required placeholder="Ex.: TR-01"></label>
+            <label>Marca e modelo<input name="model" placeholder="Marca / modelo"></label>
+            <button type="submit">Cadastrar máquina</button>
+          </form>
+          <div class="subpanel">
+            <h3>Consultar fazenda</h3>
+            <label>Fazenda<select id="farmFilter"><option value="">Todas as fazendas</option></select></label>
+            <p id="managerSummary" class="summary-text">Nenhum registro cadastrado ainda.</p>
+          </div>
+        </div>
+        <div class="table-wrap"><h3>Frota cadastrada</h3><div id="fleetList" class="record-list"></div></div>
+        <div class="table-wrap"><h3>Registros dos operadores</h3><div id="managerRecords" class="record-list"></div></div>
+      </section>
+    </section>
+
 </main>
 
 <footer>
@@ -380,6 +452,7 @@
 </footer>
 
 <script src="./script.js"></script>
+<script src="./features.js"></script>
 
 <script>
   if ("serviceWorker" in navigator) {
