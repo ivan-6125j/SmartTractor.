@@ -1,0 +1,396 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+    <link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#1b5e20">
+<meta name="mobile-web-app-capable" content="yes">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartTractor | Monitoramento Agrícola</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<header>
+    <div class="logo">🚜 SmartTractor</div>
+    <div class="status">
+        <span class="status-dot"></span>
+        <span id="systemStatus">Sistema em funcionamento</span>
+    </div>
+</header>
+
+<main>
+    <section class="hero">
+        <div>
+            <p class="subtitle">AGRICULTURA DE PRECISÃO</p>
+            <h1>Painel de Monitoramento do Trator</h1>
+            <p class="description">
+                Monitore o desempenho da máquina agrícola, acompanhe
+                indicadores operacionais e receba informações para
+                auxiliar na tomada de decisões.
+            </p>
+        </div>
+        <div class="tractor-icon">🚜</div>
+    </section>
+
+    <!-- NAVEGAÇÃO ENTRE AS TRÊS ABAS -->
+    <nav class="tabs" aria-label="Navegação principal">
+        <button class="tab-button active" data-tab="dashboard" type="button">
+            <span>📊</span> Dashboard
+        </button>
+        <button class="tab-button" data-tab="operacao" type="button">
+            <span>🚜</span> Operação
+        </button>
+        <button class="tab-button" data-tab="configuracoes" type="button">
+            <span>⚙️</span> Configurações
+        </button>
+    </nav>
+
+    <!-- ABA 1: DASHBOARD -->
+    <section class="tab-content active" id="dashboard">
+
+        <div class="section-heading">
+            <div>
+                <h2>Visão geral</h2>
+                <p>Acompanhe os principais indicadores da máquina.</p>
+            </div>
+            <span class="source-label" id="dashboardSource">Dados simulados</span>
+        </div>
+
+        <section class="cards">
+            <div class="card">
+                <div class="card-icon">🚜</div>
+                <div>
+                    <p>Velocidade</p>
+                    <h2><span id="speed">6.8</span> <small>km/h</small></h2>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">⚙️</div>
+                <div>
+                    <p>Rotação do motor</p>
+                    <h2><span id="rpm">1850</span> <small>RPM</small></h2>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🌡️</div>
+                <div>
+                    <p>Temperatura</p>
+                    <h2><span id="temperature">82.0</span> <small>°C</small></h2>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🌱</div>
+                <div>
+                    <p>Área trabalhada</p>
+                    <h2><span id="area">12.40</span> <small>ha</small></h2>
+                </div>
+            </div>
+        </section>
+
+        <section class="dashboard-grid">
+            <div class="panel score-panel">
+                <div class="panel-header">
+                    <div>
+                        <h2>Índice SmartTractor</h2>
+                        <p>Avaliação operacional experimental.</p>
+                    </div>
+                </div>
+
+                <div class="score-circle" id="scoreCircle">
+                    <div class="score-inner">
+                        <strong id="score">100</strong>
+                        <span>de 100</span>
+                    </div>
+                </div>
+
+                <h3 id="scoreStatus">Operação eficiente</h3>
+                <p id="scoreDescription">
+                    Aguardando análise dos parâmetros.
+                </p>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <div>
+                        <h2>Central de alertas</h2>
+                        <p>Condições identificadas na operação.</p>
+                    </div>
+                    <span id="alertCount" class="alert-count">0</span>
+                </div>
+                <div id="alerts" aria-live="polite">
+                    <div class="alert success">
+                        <span>✓</span>
+                        <div>
+                            <strong>Sistema funcionando normalmente</strong>
+                            <p>Nenhuma anomalia identificada.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="info-box">
+            <div class="info-icon">ℹ️</div>
+            <div>
+                <strong>Sobre o SmartTractor</strong>
+                <p>
+                    O SmartTractor é um protótipo de monitoramento agrícola.
+                    Os dados podem ser simulados ou recebidos de um canal
+                    ThingSpeak, conforme a configuração do sistema.
+                </p>
+            </div>
+        </section>
+    </section>
+
+    <!-- ABA 2: OPERAÇÃO -->
+    <section class="tab-content" id="operacao">
+
+        <div class="section-heading">
+            <div>
+                <h2>Monitoramento da operação</h2>
+                <p>Selecione a atividade e acompanhe a análise operacional.</p>
+            </div>
+        </div>
+
+        <section class="operation-section">
+            <div class="section-title">
+                <h2>Tipo de operação</h2>
+                <p>Selecione a atividade realizada pelo trator.</p>
+            </div>
+
+            <select id="operationSelect">
+                <option value="plantio">Plantio</option>
+                <option value="pulverizacao">Pulverização</option>
+                <option value="solo">Preparo do solo</option>
+                <option value="fertilizante">Distribuição de fertilizante</option>
+            </select>
+        </section>
+
+        <section class="panel">
+            <div class="panel-header">
+                <div>
+                    <h2>Monitoramento de velocidade</h2>
+                    <p>Histórico das últimas leituras recebidas.</p>
+                </div>
+                <span class="live">● ATUALIZAÇÃO</span>
+            </div>
+
+            <div class="chart">
+                <svg viewBox="0 0 600 200"
+                     preserveAspectRatio="none"
+                     role="img"
+                     aria-label="Gráfico de velocidade">
+                    <line x1="0" y1="25" x2="600" y2="25"></line>
+                    <line x1="0" y1="75" x2="600" y2="75"></line>
+                    <line x1="0" y1="125" x2="600" y2="125"></line>
+                    <line x1="0" y1="175" x2="600" y2="175"></line>
+                    <polyline id="speedLine" points=""></polyline>
+                </svg>
+            </div>
+        </section>
+
+        <section class="intelligence">
+            <div class="intelligence-header">
+                <div>
+                    <span class="ai-tag">SMARTTRACTOR INTELLIGENCE</span>
+                    <h2>Central de Inteligência</h2>
+                    <p>Análise dos parâmetros e recomendações.</p>
+                </div>
+                <div class="brain">🧠</div>
+            </div>
+
+            <div class="recommendations">
+                <div class="recommendation">
+                    <div class="recommendation-icon">📊</div>
+                    <div>
+                        <strong>Análise operacional</strong>
+                        <p id="analysisText">Aguardando análise dos dados.</p>
+                    </div>
+                </div>
+
+                <div class="recommendation">
+                    <div class="recommendation-icon">💡</div>
+                    <div>
+                        <strong>Recomendação</strong>
+                        <p id="recommendationText">Aguardando recomendações.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="panel">
+            <div class="panel-header">
+                <div>
+                    <h2>Indicadores complementares</h2>
+                    <p>Informações adicionais da atividade.</p>
+                </div>
+            </div>
+
+            <div class="operation-data">
+                <div class="data-item">
+                    <span>⏱️</span>
+                    <div>
+                        <small>Tempo de operação</small>
+                        <strong id="operationTime">Aguardando dados</strong>
+                    </div>
+                </div>
+
+                <div class="data-item">
+                    <span>📍</span>
+                    <div>
+                        <small>Distância percorrida</small>
+                        <strong id="distance">Aguardando dados</strong>
+                    </div>
+                </div>
+
+                <div class="data-item">
+                    <span>⛽</span>
+                    <div>
+                        <small>Consumo de combustível</small>
+                        <strong id="fuel">Não disponível</strong>
+                    </div>
+                </div>
+
+                <div class="data-item">
+                    <span>🛰️</span>
+                    <div>
+                        <small>Precisão GPS</small>
+                        <strong id="gpsPrecision">Não disponível</strong>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <!-- ABA 3: CONFIGURAÇÕES -->
+    <section class="tab-content" id="configuracoes">
+
+        <div class="section-heading">
+            <div>
+                <h2>Configurações do sistema</h2>
+                <p>Gerencie a fonte de dados e a conexão IoT.</p>
+            </div>
+        </div>
+
+        <section class="panel connection-panel">
+            <div class="panel-header">
+                <div>
+                    <h2>Fonte dos dados</h2>
+                    <p>Escolha como o SmartTractor receberá informações.</p>
+                </div>
+                <span id="connectionStatus" class="connection-badge simulated">
+                    Modo simulado
+                </span>
+            </div>
+
+            <label class="field-label" for="dataSource">Modo de funcionamento</label>
+            <select id="dataSource" class="config-input">
+                <option value="simulation">Dados simulados</option>
+                <option value="thingspeak">ThingSpeak</option>
+            </select>
+
+            <div class="connection-fields">
+                <div>
+                    <label class="field-label" for="channelId">Channel ID</label>
+                    <input
+                        type="text"
+                        id="channelId"
+                        class="config-input"
+                        placeholder="Digite o ID do seu canal"
+                        autocomplete="off"
+                    >
+                </div>
+
+                <div>
+    <label class="field-label" for="readApiKey">Read API Key</label>
+
+    <div class="api-key-container">
+        <input
+            type="password"
+            id="readApiKey"
+            class="config-input"
+            placeholder="Digite sua chave de leitura"
+            autocomplete="new-password"
+        >
+
+        <button
+            type="button"
+            id="toggleApiKey"
+            class="toggle-key"
+            aria-label="Mostrar API Key"
+            title="Mostrar API Key"
+        >👁</button>
+    </div>
+</div>
+            </div>
+
+            <div class="connection-buttons">
+                <button type="button" id="testConnection">
+                    Testar conexão
+                </button>
+                <button type="button" id="clearConnection" class="secondary-button">
+                    Limpar configurações
+                </button>
+            </div>
+
+            <p id="connectionMessage" class="connection-message" aria-live="polite">
+                O dashboard está utilizando dados simulados.
+            </p>
+
+            <div class="connection-footer">
+                <span>Última leitura:</span>
+                <strong id="lastUpdate">Aguardando leitura</strong>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2>Mapeamento dos campos ThingSpeak</h2>
+            <p class="panel-description">
+                Configure os Fields do canal conforme esta organização.
+            </p>
+
+            <div class="mapping-list">
+                <div><strong>Field 1</strong><span>Velocidade (km/h)</span></div>
+                <div><strong>Field 2</strong><span>Rotação (RPM)</span></div>
+                <div><strong>Field 3</strong><span>Temperatura (°C)</span></div>
+                <div><strong>Field 4</strong><span>Área trabalhada (ha)</span></div>
+                <div><strong>Field 5</strong><span>Operação (código de 1 a 4)</span></div>
+            </div>
+
+            <p class="security-note">
+                A Read API Key é utilizada apenas para leitura. Não informe
+                sua Write API Key neste painel. A chave digitada não é salva
+                permanentemente pelo aplicativo.
+            </p>
+        </section>
+    </section>
+
+</main>
+
+<footer>
+    <p>SmartTractor - Sistema de Monitoramento Agrícola</p>
+    <p>Projeto acadêmico de Máquinas Agrícolas e Agricultura de Precisão.</p>
+</footer>
+
+<script src="./script.js"></script>
+
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./service-worker.js")
+        .catch((error) => {
+          console.error("Erro ao registrar o aplicativo:", error);
+        });
+    });
+  }
+</script>
+
+</body>
+</html>
